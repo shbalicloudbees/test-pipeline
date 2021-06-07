@@ -1,8 +1,8 @@
 pipeline {
   
-   environment {
-      DOCKER_TAG = getVersion()
-    }
+//   environment {
+//      DOCKER_TAG = getVersion()
+//    }
   
   agent {
     kubernetes {
@@ -21,13 +21,13 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         container('docker') {      
-          sh "docker build . -t shbali/promo-app:${DOCKER_TAG} "
+          sh "docker build . -t shbali/promo-app:dev} "
           
           withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
                 sh "docker login -u shbali -p ${dockerHubPwd}"
            } 
           
-          sh "docker push shbali/promo-app:${DOCKER_TAG}"        // which is just connecting to the host docker deaemon
+          sh "docker push shbali/promo-app:dev"        // which is just connecting to the host docker deaemon
         
         }
       }
