@@ -24,7 +24,7 @@ pipeline {
           sh "docker build . -t shbali/promo-app:${DOCKER_TAG} "
           
           withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
-                sh "docker login -u kammana -p ${dockerHubPwd}"
+                sh "docker login -u shbali -p ${dockerHubPwd}"
            } 
           
           sh "docker push shbali/promo-app:${DOCKER_TAG}"        // which is just connecting to the host docker deaemon
