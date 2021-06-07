@@ -21,7 +21,8 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         container('docker') {      
-          sh "docker build . -t shbali/promo-app:dev} "
+          
+          sh "docker build -t shbali/promo-app:dev ." 
           
           withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
                 sh "docker login -u shbali -p ${dockerHubPwd}"
