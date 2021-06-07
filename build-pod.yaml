@@ -12,8 +12,7 @@ spec:
           cpu: "500m"
         limits:
           memory: "1Gi"
-  
-  - name: docker
+    - name: docker
       image: docker:18.06.1
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
@@ -24,5 +23,3 @@ spec:
     - name: docker
       hostPath:
         path: /var/run/docker.sock
-        
-        
