@@ -12,7 +12,8 @@ spec:
           cpu: "500m"
         limits:
           memory: "1Gi"
-    - name: docker
+  
+  - name: docker
       image: docker:18.06.1
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
@@ -23,3 +24,23 @@ spec:
     - name: docker
       hostPath:
         path: /var/run/docker.sock
+        
+        
+    - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug-539ddefcae3fd6b411a95982a830d987f4214251
+    imagePullPolicy: Always
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+      - name: jenkins-docker-cfg
+        mountPath: /kaniko/.docker
+  volumes:
+    - name: jenkins-docker-cfg
+      projected:
+        sources:
+        - secret:
+            name: regcred
+            items:
+              - key: .dockerconfigjson
+                path: config.json
