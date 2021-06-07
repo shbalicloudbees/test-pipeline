@@ -1,4 +1,9 @@
 pipeline {
+  
+   environment {
+      DOCKER_TAG = getVersion()
+    }
+  
   agent {
     kubernetes {
       label 'promo-app'  // all your pods will be named with this prefix, followed by a unique id
@@ -15,11 +20,22 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        container('docker') {  
-          sh "docker build -t vividlukeloresch/promo-app:dev ."  // when we run docker in this step, we're running it via a shell on the docker build-pod container, 
-          sh "docker push vividlukeloresch/promo-app:dev"        // which is just connecting to the host docker deaemon
+        container('docker') {      
+          sh "docker build . -t shbali/promo-app:${DOCKER_TAG} "
+          
+          withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
+                sh "docker login -u kammana -p ${dockerHubPwd}"
+           } 
+          
+          sh "docker push shbali/promo-app:${DOCKER_TAG}"        // which is just connecting to the host docker deaemon
+        
         }
       }
     }
   }
+}
+
+def getVersion(){
+    def commitHash = sh label: '', returnStdout: true, script: 'git rev-parse --short HEAD'
+    return commitHash
 }
