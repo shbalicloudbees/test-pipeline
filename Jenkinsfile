@@ -20,7 +20,7 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        container('docker') {      
+        container('kaniko') {      
           
           sh "docker build -t shbali/promo-app:dev ." 
           
