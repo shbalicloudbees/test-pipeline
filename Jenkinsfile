@@ -20,14 +20,16 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        //container('kaniko') {      
-          
-        container(name: 'kaniko', shell: '/busybox/sh') {
-          sh '''#!/busybox/sh
-            echo "FROM jenkins/inbound-agent:latest" > Dockerfile
-            /kaniko/executor --context `pwd` --destination shbali/hello-kaniko:latest 
-          '''
+        container('docker') {     
+                sh "docker build -t shbali/promo-app:dev ."
+                sh " docker exec -it shbali/promo-app:dev echo 'm inside the container' "
         }
+        //container(name: 'kaniko', shell: '/busybox/sh') {
+         // sh '''#!/busybox/sh
+          //  echo "FROM jenkins/inbound-agent:latest" > Dockerfile
+         //   /kaniko/executor --context `pwd` --destination shbali/hello-kaniko:latest 
+         // '''
+       //  }
           
           
          // sh "docker build -t shbali/promo-app:dev ." 
