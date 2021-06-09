@@ -22,7 +22,7 @@ pipeline {
       steps {
         container('docker') {     
                 sh "docker build -t shbali/promo-app:dev ."
-                sh " docker exec -it shbali/promo-app:dev echo 'm inside the container' "
+                sh " docker exec -it promo-app echo 'm inside the container' "
         }
         //container(name: 'kaniko', shell: '/busybox/sh') {
          // sh '''#!/busybox/sh
