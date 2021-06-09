@@ -21,9 +21,9 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         container('docker') {     
-                sh "docker build -t shbali/promo-app:dev ."
-                sh " docker run -dp 3000:3000 shbali/promo-app:dev "
-        }
+                //sh "docker build -t shbali/promo-app:dev ."
+                //sh " docker run -dp 3000:3000 shbali/promo-app:dev "
+           }
         //container(name: 'kaniko', shell: '/busybox/sh') {
          // sh '''#!/busybox/sh
           //  echo "FROM jenkins/inbound-agent:latest" > Dockerfile
