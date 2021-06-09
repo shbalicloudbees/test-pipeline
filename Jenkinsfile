@@ -20,17 +20,25 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        container('kaniko') {      
+        //container('kaniko') {      
           
-          sh "docker build -t shbali/promo-app:dev ." 
-          
-          withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
-                sh "docker login -u shbali -p ${dockerHubPwd}"
-           } 
-          
-          sh "docker push shbali/promo-app:dev"        // which is just connecting to the host docker deaemon
-        
+        container(name: 'kaniko', shell: '/busybox/sh') {
+          sh '''#!/busybox/sh
+            echo "FROM jenkins/inbound-agent:latest" > Dockerfile
+            /kaniko/executor --context `pwd` --destination shbali/hello-kaniko:latest 
+          '''
         }
+          
+          
+         // sh "docker build -t shbali/promo-app:dev ." 
+          
+          //withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
+          //      sh "docker login -u shbali -p ${dockerHubPwd}"
+           // } 
+          
+         // sh "docker push shbali/promo-app:dev"        // which is just connecting to the host docker deaemon
+        
+        //}
       }
     }
   }
