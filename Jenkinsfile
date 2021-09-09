@@ -1,3 +1,4 @@
+@Library("dpope-shared-libraries") _
 pipeline {
   
 //   environment {
